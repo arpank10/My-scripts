@@ -7,7 +7,7 @@ booksdescr = "http://booksdescr.org/ads.php?md5="
 libgenrs = "http://library1.org/ads/"
 
 
-def fetch(md5):
+def fetchBookUrl(md5):
     url = "http://booksdescr.org/ads.php?md5=" + md5
     print(url)
     page = requests.get(url)
@@ -18,11 +18,9 @@ def fetch(md5):
     # print(soup.prettify())
 
 
-def main():
+def fetchSearchResults(bookName):
     baseUrl = "http://libgen.io/search.php?"
-    # val = input("Enter Book Name")
-    val = "Rich Dad "
-    params = {'req': val, 'open': 0, 'res': 25, 'view': 'simple', 'phrase': 1, 'column': 'def'}
+    params = {'req': bookName, 'open': 0, 'res': 25, 'view': 'simple', 'phrase': 1, 'column': 'def'}
     query = urlencode(params)
     requestUrl = baseUrl + query
     page = requests.get(requestUrl)
@@ -46,9 +44,9 @@ def main():
         book.setMd5(md5)
         listOfBooks.append(book)
         print("##################################################################")
-        fetch(md5[0])
+        fetchBookUrl(md5[0])
         print("##################################################################")
 
 
 if __name__ == '__main__':
-    main()
+    fetchSearchResults("Rich Dad")
