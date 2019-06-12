@@ -7,7 +7,7 @@ class Book:
         self.language = language
         self.size = size
         self.extension = extension
-        self.bookUrl = ""
+        self.md5 = ""
 
     def getId(self):
         return self.bookId
@@ -30,8 +30,8 @@ class Book:
     def getExtension(self):
         return self.extension
 
-    def getBookUrl(self):
-        return self.bookUrl
+    def getMd5(self):
+        return self.md5
 
-    def setBookUrl(self, url):
-        self.bookUrl = url
+    def setMd5(self, md5):
+        self.md5 = md5

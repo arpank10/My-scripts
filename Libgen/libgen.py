@@ -1,7 +1,21 @@
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlparse, parse_qs
 from bs4 import BeautifulSoup
 from Libgen.Book import Book
 import requests
+
+booksdescr = "http://booksdescr.org/ads.php?md5="
+libgenrs = "http://library1.org/ads/"
+
+
+def fetch(md5):
+    url = "http://booksdescr.org/ads.php?md5=" + md5
+    print(url)
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, "html.parser")
+    links = soup.find_all('a')
+    downloadUrl = links[0]['href']
+    print(downloadUrl)
+    # print(soup.prettify())
 
 
 def main():
@@ -13,35 +27,27 @@ def main():
     requestUrl = baseUrl + query
     page = requests.get(requestUrl)
     soup = BeautifulSoup(page.text, "html.parser")
-    # print(soup.prettify())
     tables = soup.find_all("table", class_="c")
     rows = tables[0].contents[1:][::2]
-    listOfBooks = ""
+    listOfBooks = list()
     for row in rows:
         rowContent = row.contents[::2]
-        book = Book(rowContent[0].text, rowContent[1].text, rowContent[2].text, rowContent[3].text, rowContent[6].text, rowContent[7].text, rowContent[8].text)
-        bookUrl = "libgen.io/" + rowContent[2].contents[0]['href']
-        book.setBookUrl(bookUrl)
+        book = Book(rowContent[0].text, rowContent[1].text, rowContent[2].text, rowContent[3].text, rowContent[6].text,
+                    rowContent[7].text, rowContent[8].text)
+        if rowContent[2].contents[0].has_attr('href'):
+            bookUrl = rowContent[2].contents[0]['href']
+            if bookUrl.startswith("search"):
+                if rowContent[2].contents[1].has_attr('href'):
+                    bookUrl = rowContent[2].contents[1]['href']
+                else:
+                    continue
+        parsed = urlparse(bookUrl)
+        md5 = parse_qs(parsed.query)['md5']
+        book.setMd5(md5)
+        listOfBooks.append(book)
         print("##################################################################")
-        print("Id:" + book.getId())
-        print("Author:" + book.getAuthor())
-        print("Title:" + book.getTitle())
-        print("Publisher:" + book.getPublisher())
-        print("Language:" + book.getLanguage())
-        print("Size:" + book.getSize())
-        print("Extension:" + book.getExtension())
-        # print(book.getId())
-        # print(book.getAuthor())
-        # print(book.getTitle())
-        # print(book.getPublisher())
-        # print(book.getLanguage())
-        # print(book.getSize())
-        # print(book.getExtension())
+        fetch(md5[0])
         print("##################################################################")
-    # print(table.contents)
-    # for table in tables :
-    #     table.find_all
-    # print(table)
 
 
 if __name__ == '__main__':
