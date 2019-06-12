@@ -1,7 +1,8 @@
 from urllib.parse import urlencode, urlparse, parse_qs
 from bs4 import BeautifulSoup
-from Libgen.Book import Book
 import requests
+
+from LibgenAPI.Book import Book
 
 booksdescr = "http://booksdescr.org/ads.php?md5="
 libgenrs = "http://library1.org/ads/"
@@ -43,9 +44,10 @@ def fetchSearchResults(bookName):
         md5 = parse_qs(parsed.query)['md5']
         book.setMd5(md5)
         listOfBooks.append(book)
-        print("##################################################################")
-        fetchBookUrl(md5[0])
-        print("##################################################################")
+        # print("##################################################################")
+        # fetchBookUrl(md5[0])
+        # print("##################################################################")
+    return listOfBooks
 
 
 if __name__ == '__main__':
