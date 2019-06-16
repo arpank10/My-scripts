@@ -2,7 +2,7 @@ from urllib.parse import urlencode, urlparse, parse_qs
 from bs4 import BeautifulSoup
 import requests
 
-from LibgenAPI.Book import Book
+from Libgen.Book import Book
 
 booksdescr = "http://booksdescr.org/ads.php?md5="
 libgenrs = "http://library1.org/ads/"
