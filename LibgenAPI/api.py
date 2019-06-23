@@ -1,5 +1,5 @@
 import json
-
+import jsonpickle
 import flask
 from flask import request, jsonify
 from urllib.parse import urlencode, urlparse, parse_qs
@@ -47,7 +47,7 @@ class Book:
 
 
 app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 
 booksdescr = "http://booksdescr.org/ads.php?md5="
@@ -90,7 +90,8 @@ def fetchSearchResults(bookName):
         parsed = urlparse(bookUrl)
         md5 = parse_qs(parsed.query)['md5']
         book.setMd5(md5)
-        book = json.dumps(book.__dict__)
+        book = json.dumps(book, default=lambda o: o.__dict__)
+        # book = jsonpickle.encode(book)
         listOfBooks.append(book)
     return listOfBooks
 
@@ -128,6 +129,7 @@ def api_url():
 
 if __name__ == '__main__':
     fetchSearchResults("Rich Dad")
+    app.run(host="127.0.0.1", port=80)
 
 
-app.run()
+# app.run()
