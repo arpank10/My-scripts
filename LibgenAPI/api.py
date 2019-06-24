@@ -89,7 +89,7 @@ def fetchSearchResults(bookName):
                     continue
         parsed = urlparse(bookUrl)
         md5 = parse_qs(parsed.query)['md5']
-        book.setMd5(md5)
+        book.setMd5(md5[0])
         book = json.dumps(book, default=lambda o: o.__dict__)
         # book = jsonpickle.encode(book)
         listOfBooks.append(book)
