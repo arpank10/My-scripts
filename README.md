@@ -17,3 +17,6 @@ REQUIREMENTS:
 4. Selenium (For the company salary list)
     Install by running `pip install selenium` , also download chromedriver from selenium website and add it's path to `PATH`
     environment variable.
+    
+Requirements are mentioned in requirements.txt, install using pip by 
+`pip/pip3 install --index-url=https://pypi.python.org/simple/ -r requirements.txt`

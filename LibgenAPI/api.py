@@ -67,7 +67,7 @@ def fetchBookUrl(md5):
 
 
 def fetchSearchResults(bookName):
-    baseUrl = "http://libgen.io/search.php?"
+    baseUrl = "http://libgen.is/search.php?"
     params = {'req': bookName, 'open': 0, 'res': 25, 'view': 'simple', 'phrase': 1, 'column': 'def'}
     query = urlencode(params)
     requestUrl = baseUrl + query
